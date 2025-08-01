@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoyageAI - Intelligent Travel Planning</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+
+    <!-- Header -->
+    <header>
+        <a href="#" class="logo" id="homeLink">
+            <i class="fas fa-route"></i>
+            VoyageAI
+        </a>
+        <nav>
+            <ul>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#demo">Demo</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <button class="btn btn-outline" id="loginBtn">Login</button>
+            <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Plan Your Dream Trip with AI</h1>
+            <p>Discover personalized travel itineraries crafted by artificial intelligence. Set your budget, choose from 20+ destinations, and let our AI create the perfect journey for you.</p>
+            <div class="hero-btns">
+                <button class="btn btn-primary btn-lg" id="startChat">
+                    <i class="fas fa-comment-alt"></i> Start Planning
+                </button>
+                <button class="btn btn-accent btn-lg" id="watchDemo">
+                    <i class="fas fa-play-circle"></i> Interactive Demo
+                </button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=1200" alt="Travel destinations">
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="section" id="features">
+        <div class="section-header">
+            <h2 class="section-title">Why Choose VoyageAI</h2>
+            <p class="section-subtitle">Our AI-powered platform revolutionizes travel planning with cutting-edge technology</p>
+        </div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <h3 class="feature-title">AI-Powered Planning</h3>
+                <p>Our advanced AI analyzes millions of data points to create personalized itineraries tailored to your preferences.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <h3 class="feature-title">Budget Optimization</h3>
+                <p>Set your budget and let our AI find the best experiences without compromising on quality.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <h3 class="feature-title">Smart Itineraries</h3>
+                <p>Get day-by-day plans with optimized routes, local recommendations, and real-time updates.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section" id="how-it-works">
+        <div class="section-header">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Plan your dream vacation in just a few simple steps</p>
+        </div>
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3>Set Budget</h3>
+                <p>Enter your travel budget to guide the AI in creating your perfect plan</p>
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3>Choose Destination</h3>
+                <p>Select from our 20+ curated destinations worldwide</p>
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3>Get Plan</h3>
+                <p>Receive a detailed itinerary with maps and activity suggestions</p>
+            </div>
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3>Download & Go</h3>
+                <p>Download your personalized travel plan and start your journey</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section class="section" id="demo">
+        <div class="section-header">
+            <h2 class="section-title">Experience VoyageAI</h2>
+            <p class="section-subtitle">Try our interactive demo to see how VoyageAI creates your perfect travel plan</p>
+        </div>
+        
+        <div class="interactive-demo">
+            <div class="demo-container">
+                <div class="demo-display">
+                    <!-- Step 1: Budget Setting -->
+                    <div class="demo-step active" id="step1">
+                        <h3>Set Your Travel Budget</h3>
+                        <p>Start by entering your travel budget to guide the AI in creating your perfect plan.</p>
+                        <div class="demo-budget">
+                            <div class="budget-display">
+                                <div>Budget: <span id="demoBudget">$0</span></div>
+                                <div>Remaining: <span id="demoRemaining">$0</span></div>
+                            </div>
+                            <div class="budget-progress">
+                                <div class="budget-bar" id="demoProgress"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 2: Chat with AI -->
+                    <div class="demo-step" id="step2">
+                        <h3>Chat with AI Assistant</h3>
+                        <p>Tell our AI where you want to go and for how long.</p>
+                        <div class="demo-chat">
+                            <div class="chat-bubble ai">Hello! I'm your AI travel assistant. Where would you like to go and for how many days?</div>
+                            <div class="chat-bubble user">I want to visit Bali for 5 days</div>
+                            <div class="chat-bubble ai">Great choice! Bali is beautiful this time of year. Let me create your personalized itinerary.</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 3: View Itinerary -->
+                    <div class="demo-step" id="step3">
+                        <h3>Your Personalized Itinerary</h3>
+                        <p>AI-generated plan with activities, locations and budget breakdown.</p>
+                        <div class="demo-itinerary">
+                            <div class="itinerary-day">
+                                <h4>Day 1: Arrival</h4>
+                                <div class="activity">Arrive at Ngurah Rai Airport</div>
+                                <div class="activity">Check into hotel in Seminyak</div>
+                                <div class="activity">Sunset at Seminyak Beach</div>
+                            </div>
+                            <div class="itinerary-day">
+                                <h4>Day 2: Ubud</h4>
+                                <div class="activity">Tegallalang Rice Terraces</div>
+                                <div class="activity">Ubud Monkey Forest</div>
+                                <div class="activity">Traditional Balinese Dinner</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Step 4: Download Plan -->
+                    <div class="demo-step" id="step4">
+                        <h3>Download & Start Your Journey</h3>
+                        <p>Your travel plan is ready! Download it as a PDF or share with friends.</p>
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button class="btn btn-primary btn-lg" style="margin: 10px;">
+                                <i class="fas fa-download"></i> Download PDF
+                            </button>
+                            <button class="btn btn-accent btn-lg" style="margin: 10px;">
+                                <i class="fas fa-share-alt"></i> Share Itinerary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="demo-controls">
+                    <div class="step-indicators">
+                        <div class="step-indicator active" data-step="1"></div>
+                        <div class="step-indicator" data-step="2"></div>
+                        <div class="step-indicator" data-step="3"></div>
+                        <div class="step-indicator" data-step="4"></div>
+                    </div>
+                    
+                    <div class="demo-nav">
+                        <button id="prevBtn" disabled>
+                            <i class="fas fa-arrow-left"></i> Previous
+                        </button>
+                        <button id="nextBtn">
+                            Next <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews" id="testimonials">
+        <div class="section-header">
+            <h2 class="section-title">Traveler Reviews</h2>
+            <p class="section-subtitle">See what our users say about their AI-planned trips</p>
+        </div>
+        <div class="reviews-grid">
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">S</div>
+                    <div>
+                        <div class="review-name">Sarah Johnson</div>
+                        <div class="review-location">Bali, Indonesia</div>
+                    </div>
+                </div>
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"VoyageAI planned our perfect 7-day Bali getaway. It found hidden gems we never would have discovered!"</p>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">M</div>
+                    <div>
+                        <div class="review-name">Michael Chen</div>
+                        <div class="review-location">Paris, France</div>
+                    </div>
+                </div>
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                </div>
+                <p>"The AI created a perfectly paced itinerary with a great mix of attractions and local experiences."</p>
+            </div>
+            <div class="review-card">
+                <div class="review-header">
+                    <div class="review-avatar">J</div>
+                    <div>
+                        <div class="review-name">James Wilson</div>
+                        <div class="review-location">Tokyo, Japan</div>
+                    </div>
+                </div>
+                <div class="review-stars">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                </div>
+                <p>"Saved me $300 while giving an authentic Tokyo experience. Highly recommended!"</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Travel Plan Page -->
+    <section class="travel-plan" id="travelPlanPage">
+        <div class="section-header-plan">
+            <h2 class="section-title">Your AI Travel Plan</h2>
+            <button class="btn btn-accent" id="exportPlan">
+                <i class="fas fa-download"></i> Export Plan
+            </button>
+        </div>
+        
+        <div class="travel-container">
+            <div class="chat-section">
+                <div class="budget-container">
+                    <div class="budget-header">
+                        <div>
+                            <h3>Your Travel Budget</h3>
+                            <p>Set your budget to get started</p>
+                        </div>
+                        <div class="budget-amount">$0</div>
+                    </div>
+                    <div class="budget-input">
+                        <input type="number" id="budgetInput" placeholder="Enter your budget (e.g., 1500)">
+                        <button id="setBudget">Set Budget</button>
+                    </div>
+                    <div class="budget-progress">
+                        <div style="height: 10px; background: rgba(0,0,0,0.1); border-radius: 5px; margin-top: 15px;">
+                            <div id="budgetProgress" style="width: 0%; height: 100%; background: var(--success); border-radius: 5px;"></div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-top: 10px; font-size: 0.9rem;">
+                            <span id="spentAmount">Spent: $0</span>
+                            <span id="remainingAmount">Remaining: $0</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-container">
+                    <div class="chat-messages">
+                        <div class="message message-ai">
+                            Hello! I'm your AI travel assistant. Where would you like to go and for how many days?
+                        </div>
+                    </div>
+                    
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Type your destination and duration...">
+                        <button id="sendMessage">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="plan-section" id="planSection">
+                <div class="placeholder-plan">
+                    <i class="fas fa-compass"></i>
+                    <h3>Your Travel Plan Awaits</h3>
+                    <p>Start chatting with the AI assistant to generate your personalized itinerary.</p>
+                    <p>Enter your destination, trip duration, and budget to begin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <a href="#" class="logo" style="color: var(--primary); margin-bottom: 20px; display: block;">
+                    <i class="fas fa-route"></i>
+                    VoyageAI
+                </a>
+                <p>AI-powered travel planning for the modern explorer. Create perfect itineraries in seconds.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h3>Company</h3>
+                <ul class="footer-links">
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Press</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Resources</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Help Center</a></li>
+                    <li><a href="#">Travel Guides</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Destinations</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Europe</a></li>
+                    <li><a href="#">Asia</a></li>
+                    <li><a href="#">Americas</a></li>
+                    <li><a href="#">Africa</a></li>
+                    <li><a href="#">Oceania</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2023 VoyageAI. All rights reserved.
+        </div>
+    </footer>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="close-modal" id="closeLogin">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="modal-title">Login to Your Account</h2>
+            <p class="modal-subtitle">Welcome back! Please enter your details</p>
+            
+            <form>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Enter your password">
+                    <a href="#" class="forgot-password">Forgot password?</a>
+                </div>
+                <button class="btn btn-primary" style="width: 100%;">Sign In</button>
+            </form>
+            
+            <div class="modal-footer">
+                <p>Don't have an account? <a href="#" id="switchToSignup">Sign Up</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="close-modal" id="closeSignup">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="modal-title">Create Your Account</h2>
+            <p class="modal-subtitle">Join thousands of travelers using VoyageAI</p>
+            
+            <form>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" class="form-control" placeholder="you@example.com">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" class="form-control" placeholder="Create a password">
+                </div>
+                <button class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+            
+            <div class="modal-footer">
+                <p>Already have an account? <a href="#" id="switchToLogin">Log In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attractions Modal -->
+    <div class="modal" id="attractionsModal">
+        <div class="modal-content">
+            <div class="close-modal" id="closeAttractions">
+                <i class="fas fa-times"></i>
+            </div>
+            <h2 class="modal-title">Attractions in <span id="modalDestination"></span></h2>
+            <div id="attractionsList"></div>
+        </div>
+    </div>
+</html>
+</body>
